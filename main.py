@@ -1,26 +1,10 @@
-from enum import Enum
 from fastapi import FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
+
+from models import Item
+from data import items
 
 app = FastAPI()
-
-class Category(Enum):
-    TOOLS = "tools"
-    CONSUMABLES = "consumables"
-
-class Item(BaseModel):
-    name: str | None = None
-    price: float | None = None
-    count: int | None = None
-    id: int | None = None
-    category: Category | None = None
-
-items = {
-    0: Item(name="Hammer", price=9.99, count=20, id=0, category=Category.TOOLS),
-    1: Item(name="Pliers", price=5.99, count=20, id=1, category=Category.TOOLS),
-    2: Item(name="Nails", price=0.99, count=100, id=2, category=Category.CONSUMABLES)
-}
 
 @app.get("/")
 def index () -> dict[str, dict[int, Item]]:
